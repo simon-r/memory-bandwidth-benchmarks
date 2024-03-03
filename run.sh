@@ -57,9 +57,9 @@ function mach_info()
    model_name=$(lscpu | grep "Model name:" | awk -F ":" '{print $NF}' | tr -s "[:space:]")
    os_name=$(cat /etc/os-release  | grep "PRETTY_NAME" | awk -F "=" '{print $NF}' | tr -d "\"")
    kernel_release=$(uname -r)
-   hostname=$(hostname -f)
+   hostname=$(hostnamectl)
    thp=$( [ "$(grep -o "\[always\]" /sys/kernel/mm/*transparent_hugepage/enabled)" == "[always]" ] && echo "enabled" || echo "disabled")
-   icc_version=$(icc --version | head -n1)
+   icc_version=$(icx --version | head -n1)
 
    if [ -f /sys/devices/system/cpu/intel_pstate/no_turbo ]; then
       cpu_turbo=$( [ "$(cat /sys/devices/system/cpu/intel_pstate/no_turbo)" == 1 ] && echo "disabled" || echo "enabled")
@@ -131,7 +131,7 @@ function show_mach_info()
   echo ""
   echo "ICC version = ${icc_version}"
   echo "Target ISA  = ${target_cpu}"
-  echo "Hostname    = $(hostname -f)"
+  echo "Hostname    = $(hostnamectl)"
   echo "Date        = $(date)"
   echo ""
 }

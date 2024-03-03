@@ -1,7 +1,7 @@
 # Copyright (C) 2021 Intel Corporation
 # SPDX-License-Identifier: BSD-3-Clause
 
-CC  = icc
+CC  = icx
 
 # STREAM options:
 # -DNTIMES control the number of times each stream kernel is executed
@@ -11,7 +11,7 @@ CC  = icc
 STREAM_CPP_OPTS   = -DNTIMES=100 -DOFFSET=0 -DSTREAM_TYPE=double
 # Size per array is approx. ~2GB. Delibrately using non-power of 2 elements
 # 256*1024*1024 elements = 268435456 elements = 2GiB with FP64
-STREAM_ARRAY_SIZE = 269000000
+STREAM_ARRAY_SIZE = 169000000
 
 ifdef size
 STREAM_ARRAY_SIZE = $(size)
@@ -26,9 +26,9 @@ AVX512_COPTS   = -xCORE-AVX512 -qopt-zmm-usage=high
 COMMON_COPTS   = -Wall -O3 -mcmodel=medium -qopenmp -shared-intel
 
 ifdef rfo
-COMMON_COPTS += -qopt-streaming-stores never -fno-builtin
+COMMON_COPTS +=  never -fno-builtin
 else
-COMMON_COPTS += -qopt-streaming-stores always
+COMMON_COPTS += 
 endif
 
 AVX_OBJS    = stream_avx.o
